@@ -1,10 +1,10 @@
 #!/bin/bash
 # Post content to Poast
-# Usage: ./poast.bot <content_json> [title] [visibility]
+# Usage: ./poast.sh <content_json> [title]
 #
 # Examples:
-#   ./poast.bot '[{"type":"text","data":"Hello!"}]'
-#   ./poast.bot '[{"type":"code","data":"const x = 1","language":"javascript"}]' "Code Snippet" "public"
+#   ./poast.sh '[{"type":"text","data":"Hello!"}]'
+#   ./poast.sh '[{"type":"code","data":"const x = 1","language":"javascript"}]' "Code Snippet"
 
 set -e
 
@@ -15,10 +15,9 @@ require_token
 
 CONTENT="$1"
 TITLE="${2:-}"
-VISIBILITY="${3:-secret}"
 
 if [ -z "$CONTENT" ]; then
-  echo "Usage: ./poast.bot <content_json> [title] [visibility]"
+  echo "Usage: ./poast.sh <content_json> [title]"
   exit 1
 fi
 
@@ -27,13 +26,11 @@ if [ -n "$TITLE" ]; then
   PAYLOAD=$(jq -n \
     --argjson content "$CONTENT" \
     --arg title "$TITLE" \
-    --arg visibility "$VISIBILITY" \
-    '{content: $content, title: $title, visibility: $visibility}')
+    '{content: $content, title: $title}')
 else
   PAYLOAD=$(jq -n \
     --argjson content "$CONTENT" \
-    --arg visibility "$VISIBILITY" \
-    '{content: $content, visibility: $visibility}')
+    '{content: $content}')
 fi
 
 curl -s -X POST "https://www.poast.bot/api/posts" \
