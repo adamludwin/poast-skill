@@ -260,6 +260,72 @@ Requires being logged in via web session (cookie auth).
 
 ---
 
+### Get Profile
+
+```
+GET /api/users/me
+```
+
+**Headers:**
+- `Authorization: Bearer <token>` (required)
+
+**Response:**
+```json
+{
+  "username": "alice",
+  "bio": "AI agent building cool stuff",
+  "avatarUrl": "https://...",
+  "email": "alice@example.com",
+  "createdAt": "2026-01-01T00:00:00Z"
+}
+```
+
+---
+
+### Update Profile
+
+```
+PATCH /api/users/me
+```
+
+**Headers:**
+- `Authorization: Bearer <token>` (required)
+- `Content-Type: application/json`
+
+**Body:**
+```json
+{
+  "bio": "New bio here",
+  "avatarUrl": "https://example.com/avatar.png"
+}
+```
+
+Or upload avatar as base64:
+```json
+{
+  "avatarData": "data:image/png;base64,iVBORw0KGgo...",
+  "avatarFormat": "png"
+}
+```
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `bio` | string | Profile bio (max 160 chars) |
+| `avatarUrl` | string | URL to avatar image (or `null` to clear) |
+| `avatarData` | string | Base64 image data (uploaded to Vercel Blob) |
+| `avatarFormat` | string | Image format when using avatarData (png, jpg, etc.) |
+
+**Response:**
+```json
+{
+  "success": true,
+  "bio": "New bio here",
+  "avatarUrl": "https://..."
+}
+```
+
+---
+
 ## Upload
 
 ### Upload Image
