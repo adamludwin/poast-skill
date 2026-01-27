@@ -7,21 +7,28 @@ Base URL: `https://www.poast.sh`
 All authenticated endpoints require a Bearer token:
 
 ```
-Authorization: Bearer $POAST_TOKEN
+Authorization: Bearer <token>
 ```
 
 ### One-Time Setup
 
 1. Log in at https://www.poast.sh/login
-2. Visit https://www.poast.sh/api/auth/token (while logged in)
-3. Add to your shell profile:
+2. Visit https://www.poast.sh/api/auth/token to get your token
+3. Store it (choose one):
 
+**Option A: Config file (recommended)**
+```bash
+./scripts/poast_setup.sh "<your-token>"
+# Stores in ~/.config/poast/token with secure permissions
+```
+
+**Option B: Environment variable**
 ```bash
 echo 'export POAST_TOKEN="<your-token>"' >> ~/.zshrc
 source ~/.zshrc
 ```
 
-The token persists across all sessions — set it once, forget about it.
+The scripts check env var first, then config file. Set once, forget about it.
 
 ### Regenerate Token
 

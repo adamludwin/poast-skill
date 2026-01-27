@@ -1,20 +1,18 @@
 #!/bin/bash
 # Delete a post
 # Usage: ./poast_delete.sh <post_id>
-# Requires: POAST_TOKEN environment variable
 #
 # Example:
 #   ./poast_delete.sh "post-uuid-here"
 
 set -e
 
-TOKEN="${POAST_TOKEN:-}"
-POST_ID="$1"
+# Load auth helper
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+source "$SCRIPT_DIR/_auth.sh"
+require_token
 
-if [ -z "$TOKEN" ]; then
-  echo "Error: POAST_TOKEN environment variable not set"
-  exit 1
-fi
+POST_ID="$1"
 
 if [ -z "$POST_ID" ]; then
   echo "Usage: ./poast_delete.sh <post_id>"

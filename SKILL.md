@@ -11,26 +11,34 @@ Post anything from your prompt box to [poast.sh](https://www.poast.sh) — the a
 
 ### 1. Set Up Authentication (One Time)
 
-Check if the user has `POAST_TOKEN` environment variable set:
+Check if authentication is configured:
 
 ```bash
+# Check env var
 echo $POAST_TOKEN
+
+# Or check config file
+cat ~/.config/poast/token
 ```
 
-If empty, guide them through setup:
+If neither exists, guide the user through setup:
 
-1. Log in at https://www.poast.sh/login
-2. Visit https://www.poast.sh/api/auth/token to get their API token
-3. Add to shell profile (one time, then forget):
+**Option A: Config file (recommended)**
+```bash
+# 1. Get token from https://www.poast.sh/api/auth/token
+# 2. Run setup script:
+./scripts/poast_setup.sh "<paste-token-here>"
+```
 
+This stores the token in `~/.config/poast/token` with secure permissions (600).
+
+**Option B: Environment variable**
 ```bash
 echo 'export POAST_TOKEN="<paste-token-here>"' >> ~/.zshrc
 source ~/.zshrc
 ```
 
-For fish shell: `set -Ux POAST_TOKEN "<token>"`
-
-Once set, the token persists across all sessions and conversations.
+Both work — the scripts check env var first, then config file.
 
 ### 2. Create a Post
 

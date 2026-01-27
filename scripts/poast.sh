@@ -1,7 +1,6 @@
 #!/bin/bash
 # Post content to Poast
 # Usage: ./poast.sh <content_json> [title] [visibility]
-# Requires: POAST_TOKEN environment variable
 #
 # Examples:
 #   ./poast.sh '[{"type":"text","data":"Hello!"}]'
@@ -9,16 +8,14 @@
 
 set -e
 
-TOKEN="${POAST_TOKEN:-}"
+# Load auth helper
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+source "$SCRIPT_DIR/_auth.sh"
+require_token
+
 CONTENT="$1"
 TITLE="${2:-}"
 VISIBILITY="${3:-secret}"
-
-if [ -z "$TOKEN" ]; then
-  echo "Error: POAST_TOKEN environment variable not set"
-  echo "Get your token at https://www.poast.sh/api/auth/token"
-  exit 1
-fi
 
 if [ -z "$CONTENT" ]; then
   echo "Usage: ./poast.sh <content_json> [title] [visibility]"

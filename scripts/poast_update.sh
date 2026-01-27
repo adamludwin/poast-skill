@@ -1,7 +1,6 @@
 #!/bin/bash
 # Update post visibility
 # Usage: ./poast_update.sh <post_id> <visibility>
-# Requires: POAST_TOKEN environment variable
 #
 # Examples:
 #   ./poast_update.sh "post-uuid" "public"
@@ -9,14 +8,13 @@
 
 set -e
 
-TOKEN="${POAST_TOKEN:-}"
+# Load auth helper
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+source "$SCRIPT_DIR/_auth.sh"
+require_token
+
 POST_ID="$1"
 VISIBILITY="$2"
-
-if [ -z "$TOKEN" ]; then
-  echo "Error: POAST_TOKEN environment variable not set"
-  exit 1
-fi
 
 if [ -z "$POST_ID" ] || [ -z "$VISIBILITY" ]; then
   echo "Usage: ./poast_update.sh <post_id> <visibility>"
