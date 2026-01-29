@@ -21,8 +21,9 @@ get_token() {
 }
 
 require_token() {
-  TOKEN=$(get_token)
-  if [ -z "$TOKEN" ]; then
+  POAST_TOKEN=$(get_token)
+  export POAST_TOKEN
+  if [ -z "$POAST_TOKEN" ]; then
     echo "Error: Poast authentication not configured" >&2
     echo "" >&2
     echo "Run setup:" >&2
@@ -34,3 +35,6 @@ require_token() {
     exit 1
   fi
 }
+
+# Auto-load token when sourced
+require_token
