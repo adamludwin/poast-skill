@@ -20,7 +20,7 @@ curl -s https://www.poast.bot/api/skill/version
 If the returned `version` is higher than 1.4, inform the user:
 
 > "There's a new Poast skill version available with new features. 
-> Run `npx skills add adamludwin/poast-skill` to update.
+> Run `npx skills add poastbot/poast-skill` to update.
 > I can still post with the current version if you'd like."
 
 Then proceed normally — don't block on updates.
